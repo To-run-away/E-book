@@ -1,0 +1,28 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ClearScreen	include/disp_manage.h	/^	int (*ClearScreen)(unsigned int Color);$/;"	m	struct:_DisplayOperate
+DeviceInit	include/disp_manage.h	/^	int (*DeviceInit)(void);$/;"	m	struct:_DisplayOperate
+FBClearScreen	display/fb.c	/^static int FBClearScreen(unsigned int Color)$/;"	f	file:
+FBDeviceInit	display/fb.c	/^static int FBDeviceInit(void )$/;"	f	file:
+FBShowPixel	display/fb.c	/^static int FBShowPixel(int iPenX, int iPenY, unsigned int Color)$/;"	f	file:
+PT_DisplayOperate	include/disp_manage.h	/^}T_DisplayOperate,*PT_DisplayOperate;$/;"	t	typeref:struct:_DisplayOperate
+ShowPixel	include/disp_manage.h	/^	int (*ShowPixel)(int iPenX,int iPeny, unsigned int Colo);$/;"	m	struct:_DisplayOperate
+T_DisplayOperate	include/disp_manage.h	/^}T_DisplayOperate,*PT_DisplayOperate;$/;"	t	typeref:struct:_DisplayOperate
+_DisplayOperate	include/disp_manage.h	/^typedef struct _DisplayOperate {$/;"	s
+__DISP_MANAGE_H__	include/disp_manage.h	3;"	d
+g_FbScreenSize	display/fb.c	/^static unsigned int g_FbScreenSize;$/;"	v	file:
+g_fbmem	display/fb.c	/^static unsigned char *g_fbmem;$/;"	v	file:
+g_iLineWightSize	display/fb.c	/^static int g_iLineWightSize;$/;"	v	file:
+g_iPixelWightSize	display/fb.c	/^static int g_iPixelWightSize;$/;"	v	file:
+g_tFBDisplayOperate	display/fb.c	/^static T_DisplayOperate g_tFBDisplayOperate = {$/;"	v	file:
+g_tFix	display/fb.c	/^static struct fb_fix_screeninfo g_tFix;  $/;"	v	typeref:struct:fb_fix_screeninfo	file:
+g_tVar	display/fb.c	/^static struct fb_var_screeninfo g_tVar;   $/;"	v	typeref:struct:fb_var_screeninfo	file:
+iBpp	include/disp_manage.h	/^	int iBpp;$/;"	m	struct:_DisplayOperate
+iXres	include/disp_manage.h	/^	int iXres;$/;"	m	struct:_DisplayOperate
+iYres	include/disp_manage.h	/^	int iYres;$/;"	m	struct:_DisplayOperate
+name	include/disp_manage.h	/^	char *name;$/;"	m	struct:_DisplayOperate
+next	include/disp_manage.h	/^	struct _DisplayOperate *next;$/;"	m	struct:_DisplayOperate	typeref:struct:_DisplayOperate::_DisplayOperate
