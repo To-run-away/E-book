@@ -159,7 +159,7 @@ static int FBShowPixel(int iPenX, int iPenY, unsigned int Color)
 			pen8[iPenY * g_tVar.xres + iPenX] = (unsigned char)Color;
 		break;
 	
-		define:
+		default:
 			printf("not support bits_per_pixel\n");
 			return -1;
 		break;
@@ -213,8 +213,8 @@ static int FBClearScreen(unsigned int Color)
 			memset(g_fbmem, Color, g_FbScreenSize);
         break;
 
-        define:
-            printf("not support bits_per_pixel\n");
+        default:
+			printf("not support bits_per_pixel\n");
 			return -1;
         break;
     }
