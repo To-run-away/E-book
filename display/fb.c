@@ -147,9 +147,9 @@ static int FBShowPixel(int iPenX, int iPenY, unsigned int Color)
 		break;
 
 		case 16:
-            red   = (Color >> 16) & 0x1f;
-            green = (Color >> 8) & 0x3f;
-            blue  = (Color >> 0) & 0x1f;
+			red   = (Color >> 16) & 0x1f;
+			green = (Color >> 8) & 0x3f;
+			blue  = (Color >> 0) & 0x1f;
             Color = (red << 11) | (green << 5)| blue;
 
 			pen16[iPenY * g_tVar.xres + iPenX] = (unsigned short)Color;
@@ -174,9 +174,9 @@ static int FBShowPixel(int iPenX, int iPenY, unsigned int Color)
  */
 static int FBClearScreen(unsigned int Color)
 {
-   	unsigned int red;                                            
-    unsigned int blue;
-    unsigned int green;                                          
+	unsigned int red;                                            
+	unsigned int blue;
+	unsigned int green;                                          
 	unsigned int i;
 	unsigned short* pen16 = (unsigned short *)g_fbmem; 
 	unsigned int* pen32 = (unsigned int *)g_fbmem;  
@@ -188,10 +188,10 @@ static int FBClearScreen(unsigned int Color)
 			/*
 			 * 清除屏幕
  			 */
-           	for(i = 0; i < g_FbScreenSize; i += 4)
-            {
-                pen32[i] = (unsigned int)Color;
-            }
+			for(i = 0; i < g_FbScreenSize; i += 4)
+			{
+				pen32[i] = (unsigned int)Color;
+			}
         break;
 
         case 16:
@@ -199,13 +199,13 @@ static int FBClearScreen(unsigned int Color)
 			/*
 			 * 清除屏幕
  			 */
-            red   = (Color >> 16) & 0x1f;
-            green = (Color >> 8) & 0x3f;
-            blue  = (Color >> 0) & 0x1f;
-            Color = (red << 11) | (green << 5)| blue;
+			red   = (Color >> 16) & 0x1f;
+			green = (Color >> 8) & 0x3f;
+			blue  = (Color >> 0) & 0x1f;
+			Color = (red << 11) | (green << 5)| blue;
 			for(i = 0; i < g_FbScreenSize; i += 2)
-			{
-	            pen16[i] = (unsigned short)Color;
+			{   
+				pen16[i] = (unsigned short)Color;
 			}
         break;                                                   
         
