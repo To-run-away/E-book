@@ -18,7 +18,7 @@ typedef struct _DisplayOperate {
 	int (*DeviceInit)(void);
 	int (*ShowPixel)(int iPenX,int iPeny, unsigned int Colo);
 	int (*ClearScreen)(unsigned int Color);
-	struct _DisplayOperate *next;
+	struct _DisplayOperate *ptNext;
 }T_DisplayOperate,*PT_DisplayOperate;
 
 #endif /* __DISP_MANAGE_H__ */
