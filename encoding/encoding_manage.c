@@ -1,4 +1,5 @@
 
+#include <stdio.h>
 #include <string.h>
 #include <encoding_manager.h>
 
@@ -41,6 +42,42 @@ int RegisterEncodingOpr(PT_EncodingOperate ptEncodingOpr)
 	}
 	
 	return 0;
+}
+
+
+/*
+ * 展示可支持的编码有哪些
+ */
+void ShowEncodingOperate(void)
+{
+	int i = 0;
+	PT_EncodingOperate tmp_ptEncodingOperate = g_ptEncodingOperateHead;
+
+	while( tmp_ptEncodingOperate ) {
+		printf("%2d, %s\n", i++, tmp_ptEncodingOperate->name);
+		tmp_ptEncodingOperate = tmp_ptEncodingOperate->ptNext;
+	}
+}
+
+/*
+ * 获取当前文件所支持的编码格式
+ */
+PT_EncodingOperate SelectEncodingOperate(unsigned char *pucFileHeadBuf)
+{
+	PT_EncodingOperate tmp_ptEncodingOperate = g_ptEncodingOperateHead;
+
+	/*
+	 * 查找到支持的编码格式
+ 	 */
+	while( tmp_ptEncodingOperate ) 
+		if( tmp_ptEncodingOperate->IsSupport( pucFileHeadBuf ) )
+			return tmp_ptEncodingOperate;
+		else
+			tmp_ptEncodingOperate = tmp_ptEncodingOperate->ptNext;
+	}
+	printf("not find support encoding \n");
+	
+	return NULL;
 }
 
 

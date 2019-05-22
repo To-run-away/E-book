@@ -23,7 +23,9 @@ typedef struct _EncodingOperate {
 
 
 int Uft8EncodingInit(void);
-
+int Uft16leEnCodingInit(void);
+int Uft16beEnCodingInit(void);
+void ShowEncodingOperate(void);
 
 #endif /* __ENCODING_MANAGE_H__ */
 

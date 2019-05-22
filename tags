@@ -4,8 +4,11 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
-AsciiEncodingInit	encoding/ansi.c	/^int AsciiEncodingInit(void)$/;"	f
-AsciiGetCodeFromBuf	encoding/ansi.c	/^static int AsciiGetCodeFromBuf(unsigned char *pucStartBuf, unsigned char *pucEndBuf, unsigned int *Code)$/;"	f	file:
+AnsiEncodingInit	encoding/ansi.c	/^int AnsiEncodingInit(void)$/;"	f
+AnsiGetCodeFromBuf	encoding/ansi.c	/^static int AnsiGetCodeFromBuf(unsigned char *pucStartBuf, unsigned char *pucEndBuf, unsigned int *Code)$/;"	f	file:
+AsciiFontInit	fonts/ascii.c	/^int AsciiFontInit(void)$/;"	f
+AsciiFontInit	fonts/ascii.c	/^static int AsciiFontInit(char *FontFile,unsigned int FontSize)$/;"	f	file:
+AsciiGetFontBitmap	fonts/ascii.c	/^static int AsciiGetFontBitmap(unsigned int FontCode,PT_FontBitmap ptFontBitmap)$/;"	f	file:
 ClearScreen	include/disp_manage.h	/^	int (*ClearScreen)(unsigned int Color);$/;"	m	struct:_DisplayOperate
 DeviceInit	include/disp_manage.h	/^	int (*DeviceInit)(void);$/;"	m	struct:_DisplayOperate
 FBClearScreen	display/fb.c	/^static int FBClearScreen(unsigned int Color)$/;"	f	file:
@@ -18,20 +21,28 @@ FreeTypeInit	fonts/freetype.c	/^int FreeTypeInit()$/;"	f
 GetCodeFromBuf	include/encoding_manage.h	/^	int (*GetCodeFromBuf)(unsigned char *pucStartBuf, unsigned char *pucEndBuf, unsigned int *Code);$/;"	m	struct:_EncodingOperate
 GetFontBitmap	include/fonts_manage.h	/^	int (*GetFontBitmap)(unsigned int FontCode, PT_FontBitmap ptFontBitmap);$/;"	m	struct:_FontOperate
 GetPreOneBits	encoding/utf-8.c	/^static int GetPreOneBits(unsigned char ucVal)$/;"	f	file:
-IsAsciiCode	encoding/ansi.c	/^static int IsAsciiCode(unsigned char *pucBufHead)$/;"	f	file:
+IsAnsiCode	encoding/ansi.c	/^static int IsAnsiCode(unsigned char *pucBufHead)$/;"	f	file:
 IsSupport	include/encoding_manage.h	/^	int (*IsSupport)(unsigned char *pucBufHead);$/;"	m	struct:_EncodingOperate
+IsUft16beCode	encoding/utf-16be.c	/^static int IsUft16beCode(unsigned char *pucBufHead)$/;"	f	file:
+IsUft16leCode	encoding/utf-16le.c	/^static int IsUft16leCode(unsigned char *pucBufHead)$/;"	f	file:
 IsUtf8Coding	encoding/utf-8.c	/^static int IsUtf8Coding(unsigned char *pucBufHead)$/;"	f	file:
 PT_DisplayOperate	include/disp_manage.h	/^}T_DisplayOperate,*PT_DisplayOperate;$/;"	t	typeref:struct:_DisplayOperate
 PT_EncodingOperate	include/encoding_manage.h	/^}T_EncodingOperate,*PT_EncodingOperate;$/;"	t	typeref:struct:_EncodingOperate
 PT_FontBitmap	include/fonts_manage.h	/^},T_FontBitmap,PT_FontBitmap;$/;"	t	typeref:struct:_FontBirmap
 PT_FontOperate	include/fonts_manage.h	/^},T_FontOperate,*PT_FontOperate;$/;"	t	typeref:struct:_FontOperate
 RegisterEncodingOpr	encoding/encoding_manage.c	/^int RegisterEncodingOpr(PT_EncodingOperate ptEncodingOpr)$/;"	f
+SelectEncodingOperate	encoding/encoding_manage.c	/^PT_EncodingOperate SelectEncodingOperate(unsigned char *pucFileHeadBuf)$/;"	f
+ShowEncodingOperate	encoding/encoding_manage.c	/^void ShowEncodingOperate(void)$/;"	f
 ShowPixel	include/disp_manage.h	/^	int (*ShowPixel)(int iPenX,int iPeny, unsigned int Colo);$/;"	m	struct:_DisplayOperate
 T_DisplayOperate	include/disp_manage.h	/^}T_DisplayOperate,*PT_DisplayOperate;$/;"	t	typeref:struct:_DisplayOperate
 T_EncodingOperate	include/encoding_manage.h	/^}T_EncodingOperate,*PT_EncodingOperate;$/;"	t	typeref:struct:_EncodingOperate
 T_FontBitmap	include/fonts_manage.h	/^},T_FontBitmap,PT_FontBitmap;$/;"	t	typeref:struct:_FontBirmap
 T_FontOperate	include/fonts_manage.h	/^},T_FontOperate,*PT_FontOperate;$/;"	t	typeref:struct:_FontOperate
+Uft16beEnCodingInit	encoding/utf-16be.c	/^int Uft16beEnCodingInit(void)$/;"	f
+Uft16leEnCodingInit	encoding/utf-16le.c	/^int Uft16leEnCodingInit(void)$/;"	f
 Uft8EncodingInit	encoding/utf-8.c	/^int Uft8EncodingInit(void)$/;"	f
+Utf16beGetCodeFromBuf	encoding/utf-16be.c	/^static int Utf16beGetCodeFromBuf(unsigned char *pucStartBuf, unsigned char *pucEndBuf, unsigned int *Code)$/;"	f	file:
+Utf16leGetCodeFromBuf	encoding/utf-16le.c	/^static int Utf16leGetCodeFromBuf(unsigned char *pucStartBuf, unsigned char *pucEndBuf, unsigned int *Code)$/;"	f	file:
 Utf8GetCodeFromBuf	encoding/utf-8.c	/^static int Utf8GetCodeFromBuf(unsigned char *pucStartBuf, unsigned char *pucEndBuf, unsigned int Code)$/;"	f	file:
 _DisplayOperate	include/disp_manage.h	/^typedef struct _DisplayOperate {$/;"	s
 _EncodingOperate	include/encoding_manage.h	/^typedef struct _EncodingOperate {$/;"	s
@@ -40,9 +51,13 @@ _FontOperate	include/fonts_manage.h	/^typedef struct _FontOperate {$/;"	s
 __DISP_MANAGE_H__	include/disp_manage.h	3;"	d
 __ENCODING_MANAGE_H__	include/encoding_manage.h	4;"	d
 __FONTS_MANAGE_H__	include/fonts_manage.h	3;"	d
-g_AsciiEncodingOperate	encoding/ansi.c	/^static T_EncodingOperate g_AsciiEncodingOperate = {$/;"	v	file:
+fontdata_8x16	fonts/ascii.c	/^static const unsigned char fontdata_8x16[FONTDATAMAX] = {$/;"	v	file:
+g_AnsiEncodingOperate	encoding/ansi.c	/^static T_EncodingOperate g_AnsiEncodingOperate = {$/;"	v	file:
+g_AsciiFontOperate	fonts/ascii.c	/^static T_FontOperate g_AsciiFontOperate = {$/;"	v	file:
 g_FbScreenSize	display/fb.c	/^static unsigned int g_FbScreenSize;$/;"	v	file:
 g_FreeTypeFontOperate	fonts/freetype.c	/^static T_FontOperate g_FreeTypeFontOperate = {$/;"	v	file:
+g_Uft16beEncodingOperate	encoding/utf-16be.c	/^static T_EncodingOperate g_Uft16beEncodingOperate = {$/;"	v	file:
+g_Uft16leEncodingOperate	encoding/utf-16le.c	/^static T_EncodingOperate g_Uft16leEncodingOperate = {$/;"	v	file:
 g_fbmem	display/fb.c	/^static unsigned char *g_fbmem;$/;"	v	file:
 g_iLineWightSize	display/fb.c	/^static int g_iLineWightSize;$/;"	v	file:
 g_iPixelWightSize	display/fb.c	/^static int g_iPixelWightSize;$/;"	v	file:

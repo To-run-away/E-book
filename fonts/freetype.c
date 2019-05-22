@@ -24,7 +24,6 @@ static T_FontOperate g_FreeTypeFontOperate = {
 	.name 			= "freetype",
 	.FontInit 		= FreeTypeFontInit,
 	.GetFontBitmap  = FreeTypeGetFontBitmap,
-	
 };
 
 

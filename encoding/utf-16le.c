@@ -47,7 +47,9 @@ static int Utf16leGetCodeFromBuf(unsigned char *pucStartBuf, unsigned char *pucE
 	}	
 }
 
-
+/*
+ * utf-16 little endian
+ */
 int Uft16leEnCodingInit(void)
 {
 
