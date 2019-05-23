@@ -1,7 +1,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <encoding_manager.h>
+#include <encoding_manage.h>
 
 /*
  * 多支持的编码链表头
@@ -25,7 +25,7 @@ int RegisterEncodingOpr(PT_EncodingOperate ptEncodingOpr)
 	 */
 	if( !g_ptEncodingOperateHead ) {
 		g_ptEncodingOperateHead = ptEncodingOpr;
-		ptEncodingOpr->ptNext = NULL:
+		ptEncodingOpr->ptNext = NULL;
 	}
 	else {
 		
@@ -69,7 +69,7 @@ PT_EncodingOperate SelectEncodingOperate(unsigned char *pucFileHeadBuf)
 	/*
 	 * 查找到支持的编码格式
  	 */
-	while( tmp_ptEncodingOperate ) 
+	while( tmp_ptEncodingOperate )  {
 		if( tmp_ptEncodingOperate->IsSupport( pucFileHeadBuf ) )
 			return tmp_ptEncodingOperate;
 		else

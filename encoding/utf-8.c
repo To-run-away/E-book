@@ -1,4 +1,4 @@
-
+#include <encoding_manage.h>
 #include <string.h>
 
 static int IsUtf8Coding(unsigned char *pucBufHead);
@@ -10,7 +10,7 @@ static T_EncodingOperate g_tUTF8EncodingOperate = {
 	.name 			= "utf-8",
 	.iHeadLen 		= 3,
 	.IsSupport		= IsUtf8Coding,  
-	.GetCodeFromBuf = ,
+	.GetCodeFromBuf = Utf8GetCodeFromBuf,
 };
 
 
@@ -21,10 +21,10 @@ static T_EncodingOperate g_tUTF8EncodingOperate = {
 static int IsUtf8Coding(unsigned char *pucBufHead)
 {
 
-	const unsigned char Utf8Head[] = {0xef, 0xbb, 0xbf, 0};
+	const char Utf8Head[] = {0xef, 0xbb, 0xbf, 0};
 
 	/* 所有的utf-8编码的文件头都是上面的三字节 */	
-	if(!strncmp(Utf8Head, pucBufHead, 3))
+	if(!strncmp(Utf8Head, (char *)pucBufHead, 3))
 	{
 		/* utf-8 */
 		return 1;
@@ -59,7 +59,7 @@ static int GetPreOneBits(unsigned char ucVal)
 /*
  * 返回值：当前字体编码使用的字节个数,0表示文件结束
  */
-static int Utf8GetCodeFromBuf(unsigned char *pucStartBuf, unsigned char *pucEndBuf, unsigned int Code)
+static int Utf8GetCodeFromBuf(unsigned char *pucStartBuf, unsigned char *pucEndBuf, unsigned int *Code)
 {
 	/*
  	 *	UTF-8是Unicode的实现方式之一

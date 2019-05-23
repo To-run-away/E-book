@@ -1,4 +1,11 @@
 
+#include <fonts_manage.h>
+#include <stdio.h>
+
+#define FONTDATAMAX 4096
+
+
+
 
 static int AsciiFontInit(char *FontFile,unsigned int FontSize);
 static int AsciiGetFontBitmap(unsigned int FontCode,PT_FontBitmap ptFontBitmap);
@@ -4647,7 +4654,7 @@ static int AsciiGetFontBitmap(unsigned int FontCode,PT_FontBitmap ptFontBitmap)
 	int iPenY = ptFontBitmap->iCurOriginY;
 
 	if( 0x80 <= FontCode ) {
-		printf(" Ascii Not support the code 0x%x\n ". FontCode);
+		printf(" Ascii Not support the code 0x%x\n ", FontCode);
 		return -1;
 	}
 	
@@ -4659,25 +4666,21 @@ static int AsciiGetFontBitmap(unsigned int FontCode,PT_FontBitmap ptFontBitmap)
 	
 	/* 双色位图,一个字体一行采用1个字节表示 */
 	ptFontBitmap->iBpp 	 = 1;
-	ptFontBitmap->iPatch = 1;	
+	ptFontBitmap->iPitch = 1;	
 	
 	ptFontBitmap->iNextOriginX = iPenX + 8;
 	ptFontBitmap->iNextOriginY = iPenY;
 	
-	ptFontBitmap->pucBuffer = fontdata_8x16[FontCode << 4];
+	ptFontBitmap->pucBuffer = (unsigned char *)&fontdata_8x16[FontCode << 4];
 	
 	return 0;
 }
 
 
-int AsciiFontInit(void)
+int AsciiInit(void)
 {
 	return RegisterFontOperate(&g_AsciiFontOperate);
 }
-
-
-
-
 
 
 

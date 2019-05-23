@@ -1,4 +1,5 @@
 #include <math.h>
+#include <fonts_manage.h>
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -56,10 +57,10 @@ static int FreeTypeFontInit(char *FontFile,unsigned int FontSize)
 	}
  
     /* 获取字符集的插槽 */
-    g_tSlot = face->glyph;
+    g_tSlot = g_tFace->glyph;
 	
     /* 设置字体大小 */
-    FT_Set_Pixel_Sizes(face, FontSize, 0 );
+    FT_Set_Pixel_Sizes(g_tFace, FontSize, 0 );
 
 
 	return 0;
@@ -102,7 +103,7 @@ static int FreeTypeGetFontBitmap(unsigned int FontCode,PT_FontBitmap ptFontBitma
 	ptFontBitmap->iYmax  = ptFontBitmap->iYtop  + g_tSlot->bitmap.rows;
 
 	ptFontBitmap->iBpp   = 1;
-	ptFontBitmap->iPatch = g_tSlot->bitmap.pitch;
+	ptFontBitmap->iPitch = g_tSlot->bitmap.pitch;
 
 	/*
  	 * 获取下一个字体的原点方向,我们在同一行显示,所以Y坐标保持不变
@@ -121,7 +122,7 @@ static int FreeTypeGetFontBitmap(unsigned int FontCode,PT_FontBitmap ptFontBitma
 /*
  * 注册一个字体文件
  */
-int FreeTypeInit()
+int FreeTypeInit(void)
 {
 	return RegisterFontOperate(&g_FreeTypeFontOperate);
 }

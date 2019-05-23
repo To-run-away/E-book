@@ -9,7 +9,7 @@ static int Utf16beGetCodeFromBuf(unsigned char *pucStartBuf, unsigned char *pucE
 
 static T_EncodingOperate g_Uft16beEncodingOperate = {
 	.name			= "utf-16be",
-	.iHeadLen 		= 2;
+	.iHeadLen 		= 2,
 	.IsSupport		= IsUft16beCode,
 	.GetCodeFromBuf = Utf16beGetCodeFromBuf, 
 };
@@ -17,9 +17,9 @@ static T_EncodingOperate g_Uft16beEncodingOperate = {
 
 static int IsUft16beCode(unsigned char *pucBufHead)
 {
-	const unsigned char Utf16beHead[] = {0xFE, 0xFF, 0};      
+	const char Utf16beHead[] = {0xFE, 0xFF, 0};      
 
-	if(!strncmp(Utf16beHead, pucBufHead, 2)) {
+	if(!strncmp(Utf16beHead, (const char *)pucBufHead, 2)) {
 		/* utf-16be */
 		return 1;
 	}

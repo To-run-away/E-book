@@ -3,6 +3,8 @@
 #ifndef __ENCODING_MANAGE_H__
 #define __ENCODING_MANAGE_H__
 
+#include <fonts_manage.h>
+
 /*
  * name:字体文件类型
  * iHeadLen:头部的长度
@@ -21,6 +23,7 @@ typedef struct _EncodingOperate {
 }T_EncodingOperate,*PT_EncodingOperate;
 
 
+int RegisterEncodingOpr(PT_EncodingOperate ptEncodingOpr);
 
 int Uft8EncodingInit(void);
 int Uft16leEnCodingInit(void);

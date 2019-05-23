@@ -12,7 +12,7 @@
 #include <unistd.h>
 
 #include <stdio.h>
-
+#include <disp_manage.h>
 
 
 
@@ -42,8 +42,8 @@ static unsigned int g_FbScreenSize;
  * 显示一行索要占据的字节
  * 显示一个像素要占据的字节
  */
-static int g_iLineWightSize;
-static int g_iPixelWightSize;
+//static int g_iLineWightSize;
+//static int g_iPixelWightSize;
 
 
 static T_DisplayOperate g_tFBDisplayOperate = {
@@ -102,17 +102,17 @@ static int FBDeviceInit(void )
 	/*
  	 * 计算好显示一行所要的字节数和显示一个像素所要的字节数量
  	 */
-	g_iLineWightSize = g_tVar.xres * g_tVar.bits_per_pixel / 8;
-	g_iLineWightSize = g_tVar.bits_per_pixel >> 3;
+	//g_iLineWightSize = g_tVar.xres * g_tVar.bits_per_pixel / 8;
+	//g_iLineWightSize = g_tVar.bits_per_pixel >> 3;
 	
     /*
      * 计算整个屏幕所使用的字节大小,并进行映射
 	 * 这里采用共享方式映射,表示其他设备程序也可以对fb设备进行映射
      */
-    g_FbScreenSize = (var.xres * var.yres * var.bits_per_pixel) >> 3;
+    g_FbScreenSize = (g_tVar.xres * g_tVar.yres * g_tVar.bits_per_pixel) >> 3;
 
     g_fbmem = mmap(NULL, g_FbScreenSize, PROT_READ |  PROT_WRITE, MAP_SHARED, fb_fd, 0);
-    if((void *)-1 == fbmem) {
+    if((void *)-1 == g_fbmem) {
         perror("fb0 mmap fail\n");
         exit(1);
     }

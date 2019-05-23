@@ -59,7 +59,7 @@ typedef struct _FontBirmap {
 	int iNextOriginX;
 	int iNextOriginY;
 	unsigned char *pucBuffer;
-},T_FontBitmap,PT_FontBitmap;
+}T_FontBitmap,*PT_FontBitmap;
 
 
 
@@ -73,7 +73,18 @@ typedef struct _FontOperate {
 	char *name;
 	int (*FontInit)(char *FontFile,unsigned int FontSize);
 	int (*GetFontBitmap)(unsigned int FontCode, PT_FontBitmap ptFontBitmap);
-},T_FontOperate,*PT_FontOperate;
+	struct _FontOperate *ptNext;
+}T_FontOperate,*PT_FontOperate;
+
+
+int FontsInit(void);
+void ShowFontOperate(void);
+int RegisterFontOperate(PT_FontOperate ptFontOperate);
+
+int AsciiInit(void);
+int FreeTypeInit(void);
+int GBKInit(void);
+
 
 #endif /* __FONTS_MANAGE_H__ */
 

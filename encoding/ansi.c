@@ -1,9 +1,9 @@
 
-
+#include <string.h>
 #include <encoding_manage.h>
 
 
-static nt IsAnsiCode(unsigned char *pucBufHead);  
+static int IsAnsiCode(unsigned char *pucBufHead);  
 static int AnsiGetCodeFromBuf(unsigned char *pucStartBuf, unsigned char *pucEndBuf, unsigned int *Code);
 
 
@@ -19,9 +19,9 @@ static T_EncodingOperate g_AnsiEncodingOperate = {
  */
 static int IsAnsiCode(unsigned char *pucBufHead)
 {
-	const unsigned char Utf8Head[]    = {0xEF, 0xBB, 0xBF, 0};
-	const unsigned char Utf16leHead[] = {0xFF, 0xFE, 0};
-	const unsigned char Utf16beHead[] = {0xFE, 0xFF, 0};
+	const char Utf8Head[]    = {0xEF, 0xBB, 0xBF, 0};
+	const char Utf16leHead[] = {0xFF, 0xFE, 0};
+	const char Utf16beHead[] = {0xFE, 0xFF, 0};
 
 	if (!strncmp((const char*)pucBufHead, Utf8Head, 3)) {
 		/*utf-8 */
@@ -78,7 +78,6 @@ static int AnsiGetCodeFromBuf(unsigned char *pucStartBuf, unsigned char *pucEndB
  */
 int AnsiEncodingInit(void)
 {
-
 	return RegisterEncodingOpr(&g_AnsiEncodingOperate);
 }
 

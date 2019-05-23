@@ -9,7 +9,7 @@ static int Utf16leGetCodeFromBuf(unsigned char *pucStartBuf, unsigned char *pucE
 
 static T_EncodingOperate g_Uft16leEncodingOperate = {
 	.name			= "utf-16le",
-	.iHeadLen 		= 2;
+	.iHeadLen 		= 2,
 	.IsSupport		= IsUft16leCode,
 	.GetCodeFromBuf = Utf16leGetCodeFromBuf, 
 };
@@ -17,7 +17,7 @@ static T_EncodingOperate g_Uft16leEncodingOperate = {
 
 static int IsUft16leCode(unsigned char *pucBufHead)
 {
-	const unsigned char Utf16leHead[] = {0xFF, 0xFE, 0};      
+	const char Utf16leHead[] = {0xFF, 0xFE, 0};      
 
 	if(!strncmp(Utf16leHead, pucBufHead, 2)) {
 		/* utf-16le */
