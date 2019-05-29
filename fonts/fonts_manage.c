@@ -1,11 +1,12 @@
 #include <stdio.h>
-
+#include <config.h>
+#include <string.h>
 #include <fonts_manage.h>
 
 
 
 
-static PT_FontOperate g_ptFontOperate;
+static PT_FontOperate g_ptFontOperateHead;
 
 
 
@@ -20,28 +21,27 @@ int RegisterFontOperate(PT_FontOperate ptFontOparate)
 	 * 输入参数有误
 	 */
 	if( !ptFontOparate ) {
-		printf("RegisterFontOperate value is NULL\n");
+		DBG_PRINTF("RegisterFontOperate value is NULL\n");
 		return -1;
 	}
 	
-
 	
-	if( !g_ptFontOperate ){
+	if( !g_ptFontOperateHead ){
 		/*
 		 * 第一个注册的字体
 		 */
-		g_ptFontOperate = ptFontOparate;
+		g_ptFontOperateHead = ptFontOparate;
 		ptFontOparate->ptNext = NULL;	
 	} else {
-		tmp_ptFontOperate = g_ptFontOperate;
+		tmp_ptFontOperate = g_ptFontOperateHead;
 
 		/*
 		 * 新注册的字体注册在已经注册的字体后面
  		 */
-		while( tmp_ptFontOperate ) 
+		while( tmp_ptFontOperate->ptNext ) 
 			tmp_ptFontOperate = tmp_ptFontOperate->ptNext;
 		
-		tmp_ptFontOperate = ptFontOparate;
+		tmp_ptFontOperate->ptNext = ptFontOparate;
 		ptFontOparate->ptNext = NULL;
 	}
 
@@ -55,7 +55,7 @@ int RegisterFontOperate(PT_FontOperate ptFontOparate)
 void ShowFontOperate(void)
 {
 	int i = 0;
-	PT_FontOperate tmp_ptFontOperate = g_ptFontOperate;
+	PT_FontOperate tmp_ptFontOperate = g_ptFontOperateHead;
 
 	while( tmp_ptFontOperate ) {
 		printf("%02d %s\n",i++, tmp_ptFontOperate->name);
@@ -63,6 +63,18 @@ void ShowFontOperate(void)
 	}
 }
 
+PT_FontOperate GetFontOperate(char *name)
+{
+	PT_FontOperate tmp_ptFontOperate = g_ptFontOperateHead;
+	
+	while( tmp_ptFontOperate ) {
+		if( !strcmp(tmp_ptFontOperate->name, name) ) 
+			return tmp_ptFontOperate;
+		tmp_ptFontOperate = tmp_ptFontOperate->ptNext;
+	}
+	
+	return NULL;
+}
 
 int FontsInit(void)
 {
@@ -70,19 +82,19 @@ int FontsInit(void)
 	
 	err = AsciiInit();
 	if( err ) {
-		printf("AsciiFontInit err\n");
+		DBG_PRINTF("AsciiFontInit err\n");
 		return -1;
 	}
 	
 	err = FreeTypeInit();
 	if( err ) {
-		printf("FreeTypeInit err\n");
+		DBG_PRINTF("FreeTypeInit err\n");
 		return -1;
 	}
 	
 	err = GBKInit();
 	if( err ) {
-		printf("GBKInit err\n");
+		DBG_PRINTF("GBKInit err\n");
 		return -1;
 	}
 	

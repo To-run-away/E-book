@@ -79,6 +79,7 @@ typedef struct _FontOperate {
 
 int FontsInit(void);
 void ShowFontOperate(void);
+PT_FontOperate GetFontOperate(char *name);
 int RegisterFontOperate(PT_FontOperate ptFontOperate);
 
 int AsciiInit(void);

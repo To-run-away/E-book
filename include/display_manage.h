@@ -21,6 +21,12 @@ typedef struct _DisplayOperate {
 	struct _DisplayOperate *ptNext;
 }T_DisplayOperate,*PT_DisplayOperate;
 
+int FBInit(void);
+int DisplayInit(void);
+void ShowDisplayOperate(void);
+int RegisterDisplayOperate(PT_DisplayOperate ptDisplayOperate);
+PT_DisplayOperate GetDisplayOperate(char *Name);
+
 #endif /* __DISP_MANAGE_H__ */
 
 

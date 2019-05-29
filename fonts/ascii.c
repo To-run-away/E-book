@@ -1,4 +1,5 @@
 
+#include <config.h>
 #include <fonts_manage.h>
 #include <stdio.h>
 
@@ -4641,7 +4642,7 @@ static const unsigned char fontdata_8x16[FONTDATAMAX] = {
 static int AsciiFontInit(char *FontFile,unsigned int FontSize)
 {
 	if( 16 != FontSize ) {
-		printf("Ascii just support 8*16 font \n");
+		DBG_PRINTF("Ascii just support 8*16 font \n");
 		return -1;
 	}
 	return 0;
@@ -4654,7 +4655,7 @@ static int AsciiGetFontBitmap(unsigned int FontCode,PT_FontBitmap ptFontBitmap)
 	int iPenY = ptFontBitmap->iCurOriginY;
 
 	if( 0x80 <= FontCode ) {
-		printf(" Ascii Not support the code 0x%x\n ", FontCode);
+		DBG_PRINTF(" Ascii Not support the code 0x%x\n ", FontCode);
 		return -1;
 	}
 	

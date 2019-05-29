@@ -1,4 +1,5 @@
 #include <math.h>
+#include <config.h>
 #include <fonts_manage.h>
 
 #include <ft2build.h>
@@ -42,7 +43,7 @@ static int FreeTypeFontInit(char *FontFile,unsigned int FontSize)
     error = FT_Init_FreeType( &g_tLibrary);              /* initialize library */
     /* error handling omitted */
 	if( error ) {
-		printf("FT_Init_FreeType fail\n");
+		DBG_PRINTF("FT_Init_FreeType fail\n");
 		return -1;
 	}
 
@@ -52,7 +53,7 @@ static int FreeTypeFontInit(char *FontFile,unsigned int FontSize)
     error = FT_New_Face( g_tLibrary, FontFile, 0, &g_tFace);/* create face object */
     /* error handling omitted */
 	if( error ) {
-		printf("FT_New_Face fial\n");
+		DBG_PRINTF("FT_New_Face fial\n");
 		return -1;
 	}
  
@@ -90,7 +91,7 @@ static int FreeTypeGetFontBitmap(unsigned int FontCode,PT_FontBitmap ptFontBitma
     /* load glyph image into the slot (erase previous one) */
 	error = FT_Load_Char( g_tFace, FontCode, FT_LOAD_RENDER | FT_LOAD_MONOCHROME);
 	if( error ) { 
-		printf("FT_Load_Char err\n");
+		DBG_PRINTF("FT_Load_Char err\n");
 	}   
 
 	/*

@@ -1,9 +1,10 @@
 
+#include <config.h>
 #include <string.h>
 #include <encoding_manage.h>
 
 
-static int IsAnsiCode(unsigned char *pucBufHead);  
+static int IsAnsiCode(const char *pucBufHead);  
 static int AnsiGetCodeFromBuf(unsigned char *pucStartBuf, unsigned char *pucEndBuf, unsigned int *Code);
 
 
@@ -17,21 +18,21 @@ static T_EncodingOperate g_AnsiEncodingOperate = {
 /*
  * 判断是不是
  */
-static int IsAnsiCode(unsigned char *pucBufHead)
+static int IsAnsiCode(const char *pucBufHead)
 {
 	const char Utf8Head[]    = {0xEF, 0xBB, 0xBF, 0};
 	const char Utf16leHead[] = {0xFF, 0xFE, 0};
 	const char Utf16beHead[] = {0xFE, 0xFF, 0};
 
-	if (!strncmp((const char*)pucBufHead, Utf8Head, 3)) {
+	if (!strncmp(pucBufHead, Utf8Head, 3)) {
 		/*utf-8 */
 		return 0;
 	}
-	else if (!strncmp((const char*)pucBufHead, Utf16beHead, 2)) {
+	else if (!strncmp(pucBufHead, Utf16beHead, 2)) {
 		/*utf-16 big endian */
 		return 0;
 	}
-	else if (!strncmp((const char*)pucBufHead, Utf16leHead, 2)) {
+	else if (!strncmp(pucBufHead, Utf16leHead, 2)) {
 		/*utf-16 little endian */
 		return 0;
 	}
@@ -78,6 +79,19 @@ static int AnsiGetCodeFromBuf(unsigned char *pucStartBuf, unsigned char *pucEndB
  */
 int AnsiEncodingInit(void)
 {
+	int err;
+	
+	err = AddFontOperateForEncoding(&g_AnsiEncodingOperate, GetFontOperate("freetype"));
+	if( err )
+		return err;
+	err = AddFontOperateForEncoding(&g_AnsiEncodingOperate, GetFontOperate("ascii"));
+	if( err )
+		return err;
+		
+ 	err = AddFontOperateForEncoding(&g_AnsiEncodingOperate, GetFontOperate("gbk"));
+	if( err )
+		return err;
+	
 	return RegisterEncodingOpr(&g_AnsiEncodingOperate);
 }
 

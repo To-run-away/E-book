@@ -1,9 +1,10 @@
 
+#include <config.h>
 #include <string.h>
 #include <encoding_manage.h>
 
 
-static int IsUft16leCode(unsigned char *pucBufHead);
+static int IsUft16leCode(const char *pucBufHead);
 static int Utf16leGetCodeFromBuf(unsigned char *pucStartBuf, unsigned char *pucEndBuf, unsigned int *Code);
 
 
@@ -15,7 +16,7 @@ static T_EncodingOperate g_Uft16leEncodingOperate = {
 };
 
 
-static int IsUft16leCode(unsigned char *pucBufHead)
+static int IsUft16leCode(const char *pucBufHead)
 {
 	const char Utf16leHead[] = {0xFF, 0xFE, 0};      
 
@@ -52,7 +53,14 @@ static int Utf16leGetCodeFromBuf(unsigned char *pucStartBuf, unsigned char *pucE
  */
 int Uft16leEnCodingInit(void)
 {
+	int err;
 
+	err = AddFontOperateForEncoding(&g_Uft16leEncodingOperate , GetFontOperate("ascii"));
+	if( err )
+		return err;
+	err = AddFontOperateForEncoding(&g_Uft16leEncodingOperate , GetFontOperate("freetype"));
+	if( err )  
+		return err;
 	return RegisterEncodingOpr(&g_Uft16leEncodingOperate);
 }
 

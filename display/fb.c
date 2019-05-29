@@ -12,7 +12,8 @@
 #include <unistd.h>
 
 #include <stdio.h>
-#include <disp_manage.h>
+#include <display_manage.h>
+#include <config.h>
 
 
 
@@ -42,8 +43,8 @@ static unsigned int g_FbScreenSize;
  * 显示一行索要占据的字节
  * 显示一个像素要占据的字节
  */
-//static int g_iLineWightSize;
-//static int g_iPixelWightSize;
+static int g_iLineWightSize;
+static int g_iPixelWightSize;
 
 
 static T_DisplayOperate g_tFBDisplayOperate = {
@@ -102,8 +103,8 @@ static int FBDeviceInit(void )
 	/*
  	 * 计算好显示一行所要的字节数和显示一个像素所要的字节数量
  	 */
-	//g_iLineWightSize = g_tVar.xres * g_tVar.bits_per_pixel / 8;
-	//g_iLineWightSize = g_tVar.bits_per_pixel >> 3;
+	g_iLineWightSize = (g_tVar.xres * g_tVar.bits_per_pixel) >> 3;
+	g_iPixelWightSize = g_tVar.bits_per_pixel >> 3;
 	
     /*
      * 计算整个屏幕所使用的字节大小,并进行映射
@@ -130,9 +131,9 @@ static int FBShowPixel(int iPenX, int iPenY, unsigned int Color)
 	/*
   	 * 使用指针的特性,每次加1就是加的这个数据类型的大小来确定坐标
   	 */
-	unsigned char *pen8   = (unsigned char *)g_fbmem;
-	unsigned short *pen16 = (unsigned short *)g_fbmem;
-	unsigned int *pen32   = (unsigned int *)g_fbmem;
+	unsigned char *pen8   = (unsigned char *)g_fbmem + iPenY * g_iLineWightSize + iPenX * g_iPixelWightSize;
+	unsigned short *pen16 = (unsigned short *)pen8;
+	unsigned int *pen32   = (unsigned int *)pen8;
 
 
 	unsigned int red;
@@ -143,7 +144,7 @@ static int FBShowPixel(int iPenX, int iPenY, unsigned int Color)
 	{
 
 		case 32:
-			pen32[iPenY * g_tVar.xres + iPenX] = (unsigned int)Color;
+			*pen32 = (unsigned int)Color;
 		break;
 
 		case 16:
@@ -152,15 +153,15 @@ static int FBShowPixel(int iPenX, int iPenY, unsigned int Color)
 			blue  = (Color >> 0) & 0x1f;
             Color = (red << 11) | (green << 5)| blue;
 
-			pen16[iPenY * g_tVar.xres + iPenX] = (unsigned short)Color;
+			*pen16 = (unsigned short)Color;
 		break;
 
 		case 8:
-			pen8[iPenY * g_tVar.xres + iPenX] = (unsigned char)Color;
+			*pen8 = (unsigned char)Color;
 		break;
 	
 		default:
-			printf("not support bits_per_pixel\n");
+			DBG_PRINTF("not support bits_per_pixel\n");
 			return -1;
 		break;
 	}
@@ -190,7 +191,7 @@ static int FBClearScreen(unsigned int Color)
  			 */
 			for(i = 0; i < g_FbScreenSize; i += 4)
 			{
-				pen32[i] = (unsigned int)Color;
+				*pen32++ = (unsigned int)Color;
 			}
         break;
 
@@ -205,7 +206,7 @@ static int FBClearScreen(unsigned int Color)
 			Color = (red << 11) | (green << 5)| blue;
 			for(i = 0; i < g_FbScreenSize; i += 2)
 			{   
-				pen16[i] = (unsigned short)Color;
+				*pen16++ = (unsigned short)Color;
 			}
         break;                                                   
         
@@ -214,7 +215,7 @@ static int FBClearScreen(unsigned int Color)
         break;
 
         default:
-			printf("not support bits_per_pixel\n");
+			DBG_PRINTF("not support bits_per_pixel\n");
 			return -1;
         break;
     }
@@ -222,6 +223,9 @@ static int FBClearScreen(unsigned int Color)
 	return 0;
 }
 
-
+int FBInit(void)
+{
+	return RegisterDisplayOperate(&g_tFBDisplayOperate);
+}
 
 

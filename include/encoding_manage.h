@@ -17,17 +17,22 @@ typedef struct _EncodingOperate {
 	char *name;
 	int iHeadLen;
 	PT_FontOperate ptFontOprSupportHead;		
-	int (*IsSupport)(unsigned char *pucBufHead);
+	int (*IsSupport)(const char *pucBufHead);
 	int (*GetCodeFromBuf)(unsigned char *pucStartBuf, unsigned char *pucEndBuf, unsigned int *Code);
 	struct _EncodingOperate *ptNext;
 }T_EncodingOperate,*PT_EncodingOperate;
 
 
+int EncodingInit(void);
+int DelFontOperateFromEncoding(PT_EncodingOperate ptEncodingOperate, PT_FontOperate ptFontOperate);
+int AddFontOperateForEncoding(PT_EncodingOperate ptEncodingOperate,PT_FontOperate ptFontOperate);
 int RegisterEncodingOpr(PT_EncodingOperate ptEncodingOpr);
+PT_EncodingOperate SelectEncodingOperate(const char *pucFileHeadBuf);
 
 int Uft8EncodingInit(void);
 int Uft16leEnCodingInit(void);
 int Uft16beEnCodingInit(void);
+int AnsiEncodingInit(void);
 void ShowEncodingOperate(void);
 
 #endif /* __ENCODING_MANAGE_H__ */

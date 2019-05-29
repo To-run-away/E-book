@@ -1,7 +1,8 @@
 #include <encoding_manage.h>
+#include <config.h>
 #include <string.h>
 
-static int IsUtf8Coding(unsigned char *pucBufHead);
+static int IsUtf8Coding(const char *pucBufHead);
 static int Utf8GetCodeFromBuf(unsigned char *pucStartBuf, unsigned char *pucEndBuf, unsigned int *Code);
 
 
@@ -18,7 +19,7 @@ static T_EncodingOperate g_tUTF8EncodingOperate = {
 /*
  * 判断这个文件里是不是utf-8编码的字符
  */
-static int IsUtf8Coding(unsigned char *pucBufHead)
+static int IsUtf8Coding(const char *pucBufHead)
 {
 
 	const char Utf8Head[] = {0xef, 0xbb, 0xbf, 0};
@@ -124,7 +125,8 @@ static int Utf8GetCodeFromBuf(unsigned char *pucStartBuf, unsigned char *pucEndB
  */
 int Uft8EncodingInit(void)
 {
-	
+	AddFontOperateForEncoding(&g_tUTF8EncodingOperate , GetFontOperate("ascii"));	
+	AddFontOperateForEncoding(&g_tUTF8EncodingOperate , GetFontOperate("freetype"));	
 	return RegisterEncodingOpr(&g_tUTF8EncodingOperate);	
 }
 

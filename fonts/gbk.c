@@ -1,4 +1,5 @@
 
+#include <config.h>
 #include <fonts_manage.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -43,24 +44,24 @@ static int GBKFontInit(char *FontFile,unsigned int FontSize)
 
 	if (16 != FontSize)
 	{
-		printf("GBK can't support %d fontsize\n", FontSize);
+		DBG_PRINTF("GBK can't support %d fontsize\n", FontSize);
 		return -1;
 	}
 
 	g_fd_hzk = open(FontFile, O_RDONLY);
 	if(g_fd_hzk < 0) {
-		printf("open %s file",FontFile);
+		DBG_PRINTF("open %s file",FontFile);
 		return -1;
 	}
 
 	if(fstat(g_fd_hzk, &tmp_stat)) {
 		perror("get fstat err");
-		printf("get fstat err,%s %s %d\n", __FILE__,__FUNCTION__,__LINE__);
+		DBG_PRINTF("get fstat err,%s %s %d\n", __FILE__,__FUNCTION__,__LINE__);
 		return -1;
 	}
 
 	g_hzk_start_mem = mmap(NULL, tmp_stat.st_size, PROT_READ, MAP_SHARED, g_fd_hzk, 0);
-	if( g_hzk_start_mem ) {
+	if( !g_hzk_start_mem ) {
 		perror("hzk mmap err\n");
 		return -1;
 	}
@@ -91,7 +92,7 @@ static int GBKGetFontBitmap(unsigned int FontCode, PT_FontBitmap ptFontBitmap)
  	 */
 	
 	if(0xffff0000 & FontCode ) {
-		printf("don't support this code: %d, %s %s %d\n", FontCode, __FILE__, __FUNCTION__, __LINE__);
+		DBG_PRINTF("don't support this code: %d, %s %s %d\n", FontCode, __FILE__, __FUNCTION__, __LINE__);
 		return -1;
 	}
 	
@@ -99,7 +100,7 @@ static int GBKGetFontBitmap(unsigned int FontCode, PT_FontBitmap ptFontBitmap)
 	WhereCode = ((FontCode >> 8) & 0xff) - 0xa1;;
 	
 	if( (AreaCode < 0) || (WhereCode < 0) ) {
-		printf("gbk don't support the code %s %s %d", __FILE__, __FUNCTION__, __LINE__);
+		DBG_PRINTF("gbk don't support the code %s %s %d", __FILE__, __FUNCTION__, __LINE__);
 		return -1;
 	}
 	
@@ -114,7 +115,7 @@ static int GBKGetFontBitmap(unsigned int FontCode, PT_FontBitmap ptFontBitmap)
 	ptFontBitmap->pucBuffer = &g_hzk_start_mem[ (AreaCode * (0xff - 0xA1) + WhereCode) << 5 ];
 	
 	if( g_hzk_end_mem < ptFontBitmap->pucBuffer ) {
-		printf("Thsi code value too big %d \n", FontCode);
+		DBG_PRINTF("Thsi code value too big %d \n", FontCode);
 		return -1;
 	}
 
