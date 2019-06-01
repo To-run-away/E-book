@@ -1,0 +1,53 @@
+PHONY := __build
+__build:
+
+obj-y :=
+subdir-y :=
+
+#include top Makefile
+include Makefile
+
+#get sub dir,
+#use filter get  all %/ file --> directory
+#use patsubst delete directory tail /
+__subdir-y	:= $(patsubst %/,%,$(filter %/, $(obj-y)))
+subdir-y	+= $(__subdir-y)
+
+#get sub dir .o 
+subdir_objs := $(foreach f,$(subdir-y),$(f)/built-in.o)
+
+#get current directory all .o file
+cur_objs := $(filter-out %/, $(obj-y))
+#get current directory all .o depend file
+dep_files := $(foreach f,$(cur_objs),.$(f).d)
+dep_files := $(wildcard $(dep_files))
+
+ifneq ($(dep_files),)
+	include $(dep_files)
+endif
+
+
+# aim PHONY
+PHONY += $(subdir-y)
+
+__build : $(subdir-y) built-in.o
+
+
+#use top Makefile.build make sub dir
+$(subdir-y):
+	make -C $@ -f $(TOPDIR)/Makefile.build 
+
+#link current directory .o file
+built-in.o: $(cur_objs) $(subdir_objs)
+	$(LD) -r -o $@ $^
+
+#output 
+dep_file = .$@.d
+
+#-Wp,-Md,.$@.d 的意思是为所有的目标文件,生产依赖文件,
+#-c === a.c -> a.o   hhh.c -> hhh.o
+%.o : %.c
+	$(CC) $(CFLAGS) -Wp,-MD,$(dep_file) -c -o $@ $<
+
+.PHONY : $(PHONY)
+

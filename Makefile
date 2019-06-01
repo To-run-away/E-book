@@ -1,41 +1,61 @@
 
+CROSS_COMPILE = arm-none-linux-gnueabi-
 
-CROSS_COMPLIE := arm-none-linux-gnueabi-
+# Make variables (CC, etc...)
+CC 	= $(CROSS_COMPILE)gcc
+LD 	= $(CROSS_COMPILE)ld
+AS 	= $(CROSS_COMPILE)as
+AR 	= $(CROSS_COMPILE)ar
+STRIP		= $(CROSS_COMPILE)strip
+OBJCOPY		= $(CROSS_COMPILE)objcopy
+OBJDUMP		= $(CROSS_COMPILE)objdump
+export CC LD AS AR 
+export STRIP OBJDUMP OBJCOPY 
 
-CFLAGS := -Wall -O2 -c -g
-CFLAGS += -I$(PWD)/include
 
-LDFLAGS := -lm -lfreetype  -g
-
-
-CC := $(CROSS_COMPLIE)gcc
-LD := $(CROSS_COMPLIE)ld
+CFLAGS := -Wall -O2 
+CFLAGS += -I $(shell pwd)/include 
+LDFLAGS := -lfreetype -lm 
+export CFLAGS LDFLAGS
 
 
-OBJS += main.o
-OBJS += display/fb.o
-OBJS += display/display_manage.o
-OBJS += encoding/ansi.o 
-OBJS += encoding/encoding_manage.o
-OBJS += encoding/utf-16le.o
-OBJS += encoding/utf-16be.o
-OBJS += encoding/utf-8.o
-OBJS += fonts/ascii.o
-OBJS += fonts/fonts_manage.o
-OBJS += fonts/freetype.o
-OBJS += fonts/gbk.o
-OBJS += draw/draw.o
 
-all: $(OBJS)
-	$(CC)  $(LDFLAGS) -o e-book $^ 
+#recording top directory
+TOPDIR := $(shell pwd)
+export TOPDIR
 
-%o:%c
-	$(CC) $(CFLAGS) -o $@ $< 
 
+# aim file
+TARGET := e-book  
+
+
+obj-y += main.o
+obj-y += display/
+obj-y += encoding/
+obj-y += fonts/
+obj-y += draw/
+
+
+# -C chenge directory, -f designation make file
+.PHONY:all
+all: 
+	make -C ./ -f $(TOPDIR)/Makefile.build
+	$(CC)  $(LDFLAGS) -o $(TARGET) built-in.o
+
+
+.PHONY:clean
 clean: 
-	rm -rf e-book
-	rm -rf $(OBJS)
+	rm -rf $(TARGET)
+	rm -rf $(shell find -name "*.o")
 
+.PHONY:distclean
+distclean:
+	rm -rf $(shell find -name "*.o")
+	rm -rf $(shell find -name "*.d")
+	rm -rf $(TARGET)
+
+
+.PHONY:cp
 cp:
 	cp e-book ../../rootfs/rootfs_3.16.57/app/ -f
 
