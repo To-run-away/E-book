@@ -70,9 +70,9 @@ static int FBDeviceInit(void )
 	/*  
      * 打开显示屏
      */
-    fb_fd = open("/dev/fb0",O_RDWR);
+    fb_fd = open(FB_DEVICE_NAME,O_RDWR);
     if(fb_fd < 0) {
-        perror("open /dev/fb0 fail\n"); 
+        perror("open "FB_DEVICE_NAME" fail\n"); 
         exit(1);
     }   
 
