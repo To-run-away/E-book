@@ -158,6 +158,21 @@ int SetTextDetail(char *pcHzkFile,char *pcFileFreeType, unsigned int FontSize)
 }
 
 
+int GetDisplayResolution(int *pXres,int *pYres)
+{
+	if(g_ptDisplayOperate)
+	{
+		*pXres = g_ptDisplayOperate->iXres;
+		*pYres = g_ptDisplayOperate->iYres;
+		return 0;
+	}
+	else
+	{
+		DBG_PRINTF("Display not Register\n");	
+		return -1;
+	}
+}
+
 /*
  * 选择和初始化显示器
  */

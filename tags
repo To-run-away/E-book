@@ -4,22 +4,28 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+AR	Makefile	/^AR 	= $(CROSS_COMPILE)ar$/;"	m
+AS	Makefile	/^AS 	= $(CROSS_COMPILE)as$/;"	m
 AddFontOperateForEncoding	encoding/encoding_manage.c	/^int AddFontOperateForEncoding(PT_EncodingOperate ptEncodingOperate,PT_FontOperate ptFontOperate)$/;"	f
 AnsiEncodingInit	encoding/ansi.c	/^int AnsiEncodingInit(void)$/;"	f
 AnsiGetCodeFromBuf	encoding/ansi.c	/^static int AnsiGetCodeFromBuf(unsigned char *pucStartBuf, unsigned char *pucEndBuf, unsigned int *Code)$/;"	f	file:
 AsciiFontInit	fonts/ascii.c	/^static int AsciiFontInit(char *FontFile,unsigned int FontSize)$/;"	f	file:
 AsciiGetFontBitmap	fonts/ascii.c	/^static int AsciiGetFontBitmap(unsigned int FontCode,PT_FontBitmap ptFontBitmap)$/;"	f	file:
 AsciiInit	fonts/ascii.c	/^int AsciiInit(void)$/;"	f
-CC	Makefile	/^CC := $(CROSS_COMPLIE)gcc$/;"	m
-CFLAGS	Makefile	/^CFLAGS := -Wall -O2 -c -g$/;"	m
+CC	Makefile	/^CC 	= $(CROSS_COMPILE)gcc$/;"	m
+CFLAGS	Makefile	/^CFLAGS := -Wall -O2 $/;"	m
 COLOR_BACKGROUND	include/config.h	9;"	d
 COLOR_FOREGROUND	include/config.h	10;"	d
-CROSS_COMPLIE	Makefile	/^CROSS_COMPLIE := arm-none-linux-gnueabi-$/;"	m
+CROSS_COMPILE	Makefile	/^CROSS_COMPILE = arm-none-linux-gnueabi-$/;"	m
 ClearScreen	include/display_manage.h	/^	int (*ClearScreen)(unsigned int Color);$/;"	m	struct:_DisplayOperate
-DBG_PRINTF	include/config.h	13;"	d
+DBG_PRINTF	include/config.h	12;"	d
 DelFontOperateFromEncoding	encoding/encoding_manage.c	/^int DelFontOperateFromEncoding(PT_EncodingOperate ptEncodingOperate, PT_FontOperate ptFontOperate)$/;"	f
+DeviceExit	include/input_manage.h	/^	int (*DeviceExit)(void);$/;"	m	struct:_InputOperate
 DeviceInit	include/display_manage.h	/^	int (*DeviceInit)(void);$/;"	m	struct:_DisplayOperate
+DeviceInit	include/input_manage.h	/^	int (*DeviceInit)(void);$/;"	m	struct:_InputOperate
 DisplayInit	display/display_manage.c	/^int DisplayInit(void)$/;"	f
+E_InputType	include/input_manage.h	/^}E_InputType;$/;"	t	typeref:enum:_InputType
+E_InputValue	include/input_manage.h	/^}E_InputValue;$/;"	t	typeref:enum:_InputValue
 EncodingInit	encoding/encoding_manage.c	/^int EncodingInit(void)$/;"	f
 FBClearScreen	display/fb.c	/^static int FBClearScreen(unsigned int Color)$/;"	f	file:
 FBDeviceInit	display/fb.c	/^static int FBDeviceInit(void )$/;"	f	file:
@@ -37,48 +43,80 @@ GBKGetFontBitmap	fonts/gbk.c	/^static int GBKGetFontBitmap(unsigned int FontCode
 GBKInit	fonts/gbk.c	/^int GBKInit(void)$/;"	f
 GetCodeFromBuf	include/encoding_manage.h	/^	int (*GetCodeFromBuf)(unsigned char *pucStartBuf, unsigned char *pucEndBuf, unsigned int *Code);$/;"	m	struct:_EncodingOperate
 GetDisplayOperate	display/display_manage.c	/^PT_DisplayOperate GetDisplayOperate(char *Name)$/;"	f
+GetDisplayResolution	draw/draw.c	/^int GetDisplayResolution(int *pXres,int *pYres)$/;"	f
 GetFontBitmap	include/fonts_manage.h	/^	int (*GetFontBitmap)(unsigned int FontCode, PT_FontBitmap ptFontBitmap);$/;"	m	struct:_FontOperate
 GetFontOperate	fonts/fonts_manage.c	/^PT_FontOperate GetFontOperate(char *name)$/;"	f
+GetInputEvent	include/input_manage.h	/^	int (*GetInputEvent)(PT_InputEvent ptInputEvent);$/;"	m	struct:_InputOperate
+GetInputEvent	input/input_manage.c	/^int GetInputEvent(PT_InputOperate ptInputEvent)$/;"	f
 GetPreOneBits	encoding/utf-8.c	/^static int GetPreOneBits(unsigned char ucVal)$/;"	f	file:
+INPUT_TYPE_KEYBOARD	include/input_manage.h	/^	INPUT_TYPE_KEYBOARD,$/;"	e	enum:_InputType
+INPUT_TYPE_STDIN	include/input_manage.h	/^	INPUT_TYPE_STDIN,$/;"	e	enum:_InputType
+INPUT_TYPE_TOUCHSCREAM	include/input_manage.h	/^	INPUT_TYPE_TOUCHSCREAM,$/;"	e	enum:_InputType
+INPUT_VALUE_DOWN	include/input_manage.h	/^	INPUT_VALUE_DOWN,$/;"	e	enum:_InputValue
+INPUT_VALUE_EXIT	include/input_manage.h	/^	INPUT_VALUE_EXIT,$/;"	e	enum:_InputValue
+INPUT_VALUE_UNKNOWN	include/input_manage.h	/^	INPUT_VALUE_UNKNOWN,$/;"	e	enum:_InputValue
+INPUT_VALUE_UP	include/input_manage.h	/^	INPUT_VALUE_UP,$/;"	e	enum:_InputValue
 IncLcdX	draw/draw.c	/^static inline int IncLcdX(int x)$/;"	f	file:
 IncLcdY	draw/draw.c	/^static inline int IncLcdY(int y)$/;"	f	file:
 Initialize	main.c	/^int Initialize(void)$/;"	f
+InputDeviceInit	input/input_manage.c	/^int InputDeviceInit(void)$/;"	f
+InputInit	input/input_manage.c	/^int InputInit(void)$/;"	f
 IsAnsiCode	encoding/ansi.c	/^static int IsAnsiCode(const char *pucBufHead)$/;"	f	file:
+IsOutof500ms	input/touchscreen.c	/^static int IsOutof500ms(struct timeval *pPreTime,struct timeval *pNowTime)$/;"	f	file:
 IsSupport	include/encoding_manage.h	/^	int (*IsSupport)(const char *pucBufHead);$/;"	m	struct:_EncodingOperate
 IsUft16beCode	encoding/utf-16be.c	/^static int IsUft16beCode(const char *pucBufHead)$/;"	f	file:
 IsUft16leCode	encoding/utf-16le.c	/^static int IsUft16leCode(const char *pucBufHead)$/;"	f	file:
 IsUtf8Coding	encoding/utf-8.c	/^static int IsUtf8Coding(const char *pucBufHead)$/;"	f	file:
-LD	Makefile	/^LD := $(CROSS_COMPLIE)ld$/;"	m
-LDFLAGS	Makefile	/^LDFLAGS := -lm -lfreetype  -g$/;"	m
+LD	Makefile	/^LD 	= $(CROSS_COMPILE)ld$/;"	m
+LDFLAGS	Makefile	/^LDFLAGS := -lfreetype -lm $/;"	m
+OBJCOPY	Makefile	/^OBJCOPY		= $(CROSS_COMPILE)objcopy$/;"	m
+OBJDUMP	Makefile	/^OBJDUMP		= $(CROSS_COMPILE)objdump$/;"	m
 OpenTextFile	draw/draw.c	/^int OpenTextFile(char *FileName)$/;"	f
 PT_DisplayOperate	include/display_manage.h	/^}T_DisplayOperate,*PT_DisplayOperate;$/;"	t	typeref:struct:_DisplayOperate
 PT_EncodingOperate	include/encoding_manage.h	/^}T_EncodingOperate,*PT_EncodingOperate;$/;"	t	typeref:struct:_EncodingOperate
 PT_FontBitmap	include/fonts_manage.h	/^}T_FontBitmap,*PT_FontBitmap;$/;"	t	typeref:struct:_FontBirmap
 PT_FontOperate	include/fonts_manage.h	/^}T_FontOperate,*PT_FontOperate;$/;"	t	typeref:struct:_FontOperate
+PT_InputEvent	include/input_manage.h	/^}T_InputEvent,*PT_InputEvent;$/;"	t	typeref:struct:_InputEvent
+PT_InputOperate	include/input_manage.h	/^}T_InputOperate, *PT_InputOperate ;$/;"	t	typeref:struct:_InputOperate
 PT_PageDesc	draw/draw.c	/^} T_PageDesc,* PT_PageDesc;$/;"	t	typeref:struct:_PageDesc	file:
 RecordPage	draw/draw.c	/^static void RecordPage(PT_PageDesc ptPageNew)$/;"	f	file:
 RegisterDisplayOperate	display/display_manage.c	/^int RegisterDisplayOperate(PT_DisplayOperate ptDisplayOperate)$/;"	f
 RegisterEncodingOpr	encoding/encoding_manage.c	/^int RegisterEncodingOpr(PT_EncodingOperate ptEncodingOpr)$/;"	f
 RegisterFontOperate	fonts/fonts_manage.c	/^int RegisterFontOperate(PT_FontOperate ptFontOparate)$/;"	f
+RegisterInputOperate	input/input_manage.c	/^int RegisterInputOperate(PT_InputOperate ptInputOperate)$/;"	f
 RelocateFontPos	draw/draw.c	/^int RelocateFontPos(PT_FontBitmap ptFontBitmap)$/;"	f
-STRING_LEN	main.c	11;"	d	file:
+STRING_LEN	main.c	12;"	d	file:
+STRIP	Makefile	/^STRIP		= $(CROSS_COMPILE)strip$/;"	m
 SelectAndInitDisplay	draw/draw.c	/^int SelectAndInitDisplay(char *Name)$/;"	f
 SelectEncodingOperate	encoding/encoding_manage.c	/^PT_EncodingOperate SelectEncodingOperate(const char *pucFileHeadBuf)$/;"	f
 SetTextDetail	draw/draw.c	/^int SetTextDetail(char *pcHzkFile,char *pcFileFreeType, unsigned int FontSize)$/;"	f
 ShowDisplayOperate	display/display_manage.c	/^void ShowDisplayOperate(void)$/;"	f
 ShowEncodingOperate	encoding/encoding_manage.c	/^void ShowEncodingOperate(void)$/;"	f
 ShowFontOperate	fonts/fonts_manage.c	/^void ShowFontOperate(void)$/;"	f
+ShowInputOperate	input/input_manage.c	/^void ShowInputOperate(void)$/;"	f
 ShowNextPage	draw/draw.c	/^int ShowNextPage(void)$/;"	f
 ShowOneFont	draw/draw.c	/^static int ShowOneFont(PT_FontBitmap ptFontBitmap)$/;"	f	file:
 ShowOnePage	draw/draw.c	/^int ShowOnePage(unsigned char *pucTextFileCurPos)$/;"	f
 ShowPixel	include/display_manage.h	/^	int (*ShowPixel)(int iPenX,int iPeny, unsigned int Colo);$/;"	m	struct:_DisplayOperate
 ShowPrevPage	draw/draw.c	/^int ShowPrevPage(void)$/;"	f
 ShowSupportOption	main.c	/^void ShowSupportOption(void)$/;"	f
+StdinDeviceExit	input/stdin.c	/^int StdinDeviceExit(void)$/;"	f
+StdinDeviceInit	input/stdin.c	/^int StdinDeviceInit(void)$/;"	f
+StdinGetInputEvent	input/stdin.c	/^int StdinGetInputEvent(PT_InputEvent ptInputEvent)$/;"	f
+StdinInit	input/stdin.c	/^int StdinInit(void)$/;"	f
+TARGET	Makefile	/^TARGET := e-book  $/;"	m
+TOPDIR	Makefile	/^TOPDIR := $(shell pwd)$/;"	m
 T_DisplayOperate	include/display_manage.h	/^}T_DisplayOperate,*PT_DisplayOperate;$/;"	t	typeref:struct:_DisplayOperate
 T_EncodingOperate	include/encoding_manage.h	/^}T_EncodingOperate,*PT_EncodingOperate;$/;"	t	typeref:struct:_EncodingOperate
 T_FontBitmap	include/fonts_manage.h	/^}T_FontBitmap,*PT_FontBitmap;$/;"	t	typeref:struct:_FontBirmap
 T_FontOperate	include/fonts_manage.h	/^}T_FontOperate,*PT_FontOperate;$/;"	t	typeref:struct:_FontOperate
+T_InputEvent	include/input_manage.h	/^}T_InputEvent,*PT_InputEvent;$/;"	t	typeref:struct:_InputEvent
+T_InputOperate	include/input_manage.h	/^}T_InputOperate, *PT_InputOperate ;$/;"	t	typeref:struct:_InputOperate
 T_PageDesc	draw/draw.c	/^} T_PageDesc,* PT_PageDesc;$/;"	t	typeref:struct:_PageDesc	file:
+TouchScreenDeviceExit	input/touchscreen.c	/^int TouchScreenDeviceExit(void) $/;"	f
+TouchScreenDeviceInit	input/touchscreen.c	/^int TouchScreenDeviceInit(void)$/;"	f
+TouchScreenGetInputEvent	input/touchscreen.c	/^int TouchScreenGetInputEvent(PT_InputEvent ptInputEvent)$/;"	f
+TouchScreenInit	input/touchscreen.c	/^int TouchScreenInit(void)$/;"	f
 Uft16beEnCodingInit	encoding/utf-16be.c	/^int Uft16beEnCodingInit(void)$/;"	f
 Uft16leEnCodingInit	encoding/utf-16le.c	/^int Uft16leEnCodingInit(void)$/;"	f
 Uft8EncodingInit	encoding/utf-8.c	/^int Uft8EncodingInit(void)$/;"	f
@@ -89,12 +127,17 @@ _DisplayOperate	include/display_manage.h	/^typedef struct _DisplayOperate {$/;"	
 _EncodingOperate	include/encoding_manage.h	/^typedef struct _EncodingOperate {$/;"	s
 _FontBirmap	include/fonts_manage.h	/^typedef struct _FontBirmap {$/;"	s
 _FontOperate	include/fonts_manage.h	/^typedef struct _FontOperate {$/;"	s
+_InputEvent	include/input_manage.h	/^typedef struct _InputEvent {$/;"	s
+_InputOperate	include/input_manage.h	/^typedef struct _InputOperate {$/;"	s
+_InputType	include/input_manage.h	/^typedef enum _InputType{$/;"	g
+_InputValue	include/input_manage.h	/^typedef enum _InputValue {$/;"	g
 _PageDesc	draw/draw.c	/^typedef struct _PageDesc {$/;"	s	file:
 __CONFIG_H__	include/config.h	3;"	d
 __DISP_MANAGE_H__	include/display_manage.h	3;"	d
 __DRAW_H__	include/draw.h	2;"	d
 __ENCODING_MANAGE_H__	include/encoding_manage.h	4;"	d
 __FONTS_MANAGE_H__	include/fonts_manage.h	3;"	d
+__INPUT_MANAGE_H__	include/input_manage.h	4;"	d
 fontdata_8x16	fonts/ascii.c	/^static const unsigned char fontdata_8x16[FONTDATAMAX] = {$/;"	v	file:
 g_AnsiEncodingOperate	encoding/ansi.c	/^static T_EncodingOperate g_AnsiEncodingOperate = {$/;"	v	file:
 g_AsciiFontOperate	fonts/ascii.c	/^static T_FontOperate g_AsciiFontOperate = {$/;"	v	file:
@@ -104,17 +147,24 @@ g_FreeTypeFontOperate	fonts/freetype.c	/^static T_FontOperate g_FreeTypeFontOper
 g_GBKFontOperate	fonts/gbk.c	/^static T_FontOperate g_GBKFontOperate = {$/;"	v	file:
 g_Uft16beEncodingOperate	encoding/utf-16be.c	/^static T_EncodingOperate g_Uft16beEncodingOperate = {$/;"	v	file:
 g_Uft16leEncodingOperate	encoding/utf-16le.c	/^static T_EncodingOperate g_Uft16leEncodingOperate = {$/;"	v	file:
+g_Xres	input/touchscreen.c	/^static int g_Xres,g_Yres;$/;"	v	file:
+g_Yres	input/touchscreen.c	/^static int g_Xres,g_Yres;$/;"	v	file:
 g_fbmem	display/fb.c	/^static unsigned char *g_fbmem;$/;"	v	file:
 g_fd_hzk	fonts/gbk.c	/^static int g_fd_hzk;$/;"	v	file:
 g_hzk_end_mem	fonts/gbk.c	/^static unsigned char *g_hzk_end_mem;$/;"	v	file:
 g_hzk_start_mem	fonts/gbk.c	/^static unsigned char *g_hzk_start_mem;$/;"	v	file:
+g_iLineWightSize	display/fb.c	/^static int g_iLineWightSize;$/;"	v	file:
+g_iPixelWightSize	display/fb.c	/^static int g_iPixelWightSize;$/;"	v	file:
 g_ptCurPage	draw/draw.c	/^static PT_PageDesc g_ptCurPage;$/;"	v	file:
 g_ptDisplayOperate	draw/draw.c	/^static PT_DisplayOperate g_ptDisplayOperate;$/;"	v	file:
 g_ptDisplayOperateHead	display/display_manage.c	/^static PT_DisplayOperate g_ptDisplayOperateHead;$/;"	v	file:
 g_ptEnCodingOperateForFile	draw/draw.c	/^static PT_EncodingOperate g_ptEnCodingOperateForFile;$/;"	v	file:
 g_ptEncodingOperateHead	encoding/encoding_manage.c	/^static PT_EncodingOperate g_ptEncodingOperateHead;$/;"	v	file:
 g_ptFontOperateHead	fonts/fonts_manage.c	/^static PT_FontOperate g_ptFontOperateHead;$/;"	v	file:
+g_ptInputOperateHead	input/input_manage.c	/^static PT_InputOperate g_ptInputOperateHead;$/;"	v	file:
 g_ptPages	draw/draw.c	/^static PT_PageDesc g_ptPages;$/;"	v	file:
+g_ptStdInputOperate	input/stdin.c	/^static T_InputOperate g_ptStdInputOperate = {$/;"	v	file:
+g_ptTs	input/touchscreen.c	/^static struct tsdev *g_ptTs;$/;"	v	typeref:struct:tsdev	file:
 g_pucLcdFirstPosAtFile	draw/draw.c	/^static unsigned char *g_pucLcdFirstPosAtFile;$/;"	v	file:
 g_pucLcdNextPosAtFile	draw/draw.c	/^static unsigned char *g_pucLcdNextPosAtFile;$/;"	v	file:
 g_pucTextFileMem	draw/draw.c	/^static unsigned char *g_pucTextFileMem;$/;"	v	file:
@@ -124,6 +174,7 @@ g_tFace	fonts/freetype.c	/^static FT_Face       g_tFace;$/;"	v	file:
 g_tFix	display/fb.c	/^static struct fb_fix_screeninfo g_tFix;  $/;"	v	typeref:struct:fb_fix_screeninfo	file:
 g_tLibrary	fonts/freetype.c	/^static FT_Library    g_tLibrary;$/;"	v	file:
 g_tSlot	fonts/freetype.c	/^static FT_GlyphSlot  g_tSlot; $/;"	v	file:
+g_tTouchScreenInputOperate	input/touchscreen.c	/^static T_InputOperate g_tTouchScreenInputOperate = {$/;"	v	file:
 g_tUTF8EncodingOperate	encoding/utf-8.c	/^static T_EncodingOperate g_tUTF8EncodingOperate = {$/;"	v	file:
 g_tVar	display/fb.c	/^static struct fb_var_screeninfo g_tVar;   $/;"	v	typeref:struct:fb_var_screeninfo	file:
 iBpp	include/display_manage.h	/^	int iBpp;$/;"	m	struct:_DisplayOperate
@@ -145,12 +196,17 @@ main	main.c	/^int main(int argc, char *argv[])$/;"	f
 name	include/display_manage.h	/^	char *name;$/;"	m	struct:_DisplayOperate
 name	include/encoding_manage.h	/^	char *name;$/;"	m	struct:_EncodingOperate
 name	include/fonts_manage.h	/^	char *name;$/;"	m	struct:_FontOperate
+name	include/input_manage.h	/^	char *name;	$/;"	m	struct:_InputOperate
 ptFontOprSupportHead	include/encoding_manage.h	/^	PT_FontOperate ptFontOprSupportHead;		$/;"	m	struct:_EncodingOperate
 ptNext	include/display_manage.h	/^	struct _DisplayOperate *ptNext;$/;"	m	struct:_DisplayOperate	typeref:struct:_DisplayOperate::_DisplayOperate
 ptNext	include/encoding_manage.h	/^	struct _EncodingOperate *ptNext;$/;"	m	struct:_EncodingOperate	typeref:struct:_EncodingOperate::_EncodingOperate
 ptNext	include/fonts_manage.h	/^	struct _FontOperate *ptNext;$/;"	m	struct:_FontOperate	typeref:struct:_FontOperate::_FontOperate
+ptNext	include/input_manage.h	/^	struct _InputOperate *ptNext;$/;"	m	struct:_InputOperate	typeref:struct:_InputOperate::_InputOperate
 ptNextPage	draw/draw.c	/^	struct _PageDesc *ptNextPage;$/;"	m	struct:_PageDesc	typeref:struct:_PageDesc::_PageDesc	file:
 ptPrevPage	draw/draw.c	/^	struct _PageDesc *ptPrevPage;$/;"	m	struct:_PageDesc	typeref:struct:_PageDesc::_PageDesc	file:
 pucBuffer	include/fonts_manage.h	/^	unsigned char *pucBuffer;$/;"	m	struct:_FontBirmap
 pucLcdFirstPos	draw/draw.c	/^	unsigned char *pucLcdFirstPos;$/;"	m	struct:_PageDesc	file:
 pucLcdNextPageFirstPos	draw/draw.c	/^	unsigned char *pucLcdNextPageFirstPos;$/;"	m	struct:_PageDesc	file:
+time	include/input_manage.h	/^	struct timeval 	time;$/;"	m	struct:_InputEvent	typeref:struct:_InputEvent::timeval
+type	include/input_manage.h	/^	E_InputType 	type;$/;"	m	struct:_InputEvent
+value	include/input_manage.h	/^	E_InputValue 	value;$/;"	m	struct:_InputEvent

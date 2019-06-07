@@ -3,6 +3,7 @@
 #include <display_manage.h>
 #include <encoding_manage.h>
 #include <fonts_manage.h>
+#include <input_manage.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
@@ -33,13 +34,27 @@ int Initialize(void)
 	/* 初始化编码器 */
 	err = EncodingInit();
 	if( err ) {
-		printf("EncodingInit error\n");
+		DBG_PRINTF("EncodingInit error\n");
 		return err;
 	}
-	
+
+	/*
+	 * 初始化输入
+	 */
+	err = InputInit();	
+	if( err ) {
+		DBG_PRINTF("InputInit error\n");
+		return err;
+	}
+
+
 	return 0;
 }
 
+
+/*
+ * 显示支持的格式等
+ */
 void ShowSupportOption(void)
 {	
 	printf("support display:\n");
@@ -50,6 +65,9 @@ void ShowSupportOption(void)
 
 	printf("support encoding:\n");
 	ShowEncodingOperate();
+
+	printf("support input\n");
+	ShowInputOperate();
 }
 
 
@@ -63,7 +81,8 @@ int main(int argc, char *argv[])
 	char Display[STRING_LEN];
 	int ret;
 	int list = 0;
-	int opt;
+	T_InputEvent tInputEvent;
+
 
 	Display[0] = '\0';
 	HzkFile[0] = '\0';
@@ -136,12 +155,18 @@ int main(int argc, char *argv[])
 	strncpy(TextFile, argv[optind], STRING_LEN);
 	TextFile[STRING_LEN - 1] = '\0';
 	
+	/*
+ 	 * 打开文本文件
+	 */
 	err = OpenTextFile(TextFile); 
 	if( err ) {
 		DBG_PRINTF("OpenTextFile error\n");
 		return -1;
 	}
 	
+	/*
+	 * 选择文本文件细节(编码器,字体大小等)
+	 */
 	err = SetTextDetail(HzkFile, FreeTypeFile, FontSize);
 	if( err ) {
 		DBG_PRINTF("SetTextDetail error\n");
@@ -149,10 +174,22 @@ int main(int argc, char *argv[])
 	}
 
 	DBG_PRINTF("%s %s %d\n", __FILE__, __FUNCTION__, __LINE__);
-
+	
+	/*
+	 * 选择在哪显示
+	 */
 	err = SelectAndInitDisplay(Display);
 	if( err ) {
 		DBG_PRINTF("SelectAndInitDisplay error\n");
+		return -1;
+	}
+	
+	/*
+	 * 初始化输入设备
+	 */
+	err = InputDeviceInit();
+	if( err ) {
+		DBG_PRINTF("InputDeviceInit error\n");
 		return -1;
 	}
 
@@ -162,20 +199,20 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
-	while(1) {
-		printf("Enter 'n' to show next page , 'u' to show previous page, 'q' to exit:");
-		
-		do {
-			opt = getchar();
-		}while(('n' != opt) && ('u' != opt) && ('q' != opt));
-		
-		if('n' == opt)
-			ShowNextPage();
-		else if('u' == opt)
-			ShowPrevPage();
-		else
-			return 0;
+	printf("Enter 'n' to show next page, 'u' to show previous page, 'q' to exit:\n");
 
+	while(1) {
+		
+		if(!GetInputEvent(&tInputEvent))
+		{		
+		
+			if(INPUT_VALUE_DOWN == tInputEvent.value)
+				ShowNextPage();
+			else if(INPUT_VALUE_UP == tInputEvent.value)
+				ShowPrevPage();
+			else if(INPUT_VALUE_EXIT == tInputEvent.value)
+				return 0;
+		}
 	}
 
 	return 0;

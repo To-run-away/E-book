@@ -15,7 +15,7 @@ export STRIP OBJDUMP OBJCOPY
 
 CFLAGS := -Wall -O2 
 CFLAGS += -I $(shell pwd)/include 
-LDFLAGS := -lfreetype -lm 
+LDFLAGS := -lfreetype -lm -lts
 export CFLAGS LDFLAGS
 
 
@@ -34,6 +34,7 @@ obj-y += display/
 obj-y += encoding/
 obj-y += fonts/
 obj-y += draw/
+obj-y += input/
 
 
 # -C chenge directory, -f designation make file
