@@ -37,18 +37,20 @@ obj-y += draw/
 obj-y += input/
 
 
-# -C chenge directory, -f designation make file
+# -C chenge directory, -f designation make file.
 .PHONY:all
 all: 
 	make -C ./ -f $(TOPDIR)/Makefile.build
 	$(CC)  $(LDFLAGS) -o $(TARGET) built-in.o
 
 
+#rmnove all output files.
 .PHONY:clean
 clean: 
 	rm -rf $(TARGET)
 	rm -rf $(shell find -name "*.o")
 
+#remove all depend files and output files.
 .PHONY:distclean
 distclean:
 	rm -rf $(shell find -name "*.o")
