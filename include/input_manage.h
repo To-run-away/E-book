@@ -39,6 +39,7 @@ typedef struct _InputEvent {
  */
 typedef struct _InputOperate {
 	char *name;	
+	int fd;
 	int (*DeviceInit)(void);
 	int (*DeviceExit)(void);
 	int (*GetInputEvent)(PT_InputEvent ptInputEvent);
