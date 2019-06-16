@@ -2,15 +2,22 @@
 
 目前实现的功能会包括:
 1.汉字和英文字符的的显示;
+
 2.支持的字符编码格式包括(utf8[大小任意], ansi[16*8],utf-16le和utf-l6be[16*16]);
+
 3.支持的字体格式包括(ascii, gbk , freetype);
+
 4.支持输入文件的显示;
+
 5.支持标准输入翻页,推出;
+
 6.输入子系统的支持,即翻页,字体放大都通过触摸屏或按键来控制;
+
 7......
 
 前提：
 1.提前编译好freetype库,并放在开发板上;
+
 2.提前编译好tslib库,并放在开发板上;
 
 
@@ -21,9 +28,13 @@
 这个我也会放在tools目录下,建议设置为脚本,在开机启动时自动导出到环境变量
 
 export TSLIB_TSDEVICE=/dev/input/event0
+
 export TSLIB_CONFFILE=/etc/ts.conf
+
 export TSLIB_PLUGINDIR=/lib/ts
+
 export TSLIB_CONSOLEDEVICE=none
+
 export TSLIB_FBDEVICE=/dev/fb0
 
 #-------------------------------------------
@@ -56,4 +67,4 @@ make CROSS_COMPILE=arm-none-linux-gnueabi-
 <text_file> 这个是必选项,表示要显示的文件
 
 
-5.在tools目录下放上要使用的几个字体文件
+5.在tools目录下有几个使用的几个字体文件
