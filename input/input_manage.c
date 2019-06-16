@@ -102,19 +102,23 @@ int GetInputEvent(PT_InputEvent ptInputEvent)
 	}
 #elif (2 == INPUT_WAY)
 	int ret;
+	fd_set fds;
 
-
+	/*
+	 * 查询两个输入设备
+	 */
+	fds = g_Readfds;
 	/*
 	 * 查询等待输入事件到来
  	 */
-	ret = select(g_Maxfd, &g_Readfds, NULL, NULL, NULL);
+	ret = select(g_Maxfd, &fds, NULL, NULL, NULL);
 	if(ret > 0) {
 		while(tmp_ptInputOperate) {
 
 			/*
 			 * 查询是那个输入设备有数据了,然后获取数据
 			 */
-			if(FD_ISSET(tmp_ptInputOperate->fd, &g_Readfds)) {
+			if(FD_ISSET(tmp_ptInputOperate->fd, &fds)) {
 				if(!tmp_ptInputOperate->GetInputEvent(ptInputEvent))
 					return 0;
 			}
