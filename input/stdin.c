@@ -4,12 +4,6 @@
 #include <input_manage.h>
 #include <sys/select.h>
 
-/* According to earlier standards */
-#include <sys/time.h>
-#include <sys/types.h>
-#include <unistd.h>
-
-
 
 int StdinDeviceInit(void);
 int StdinDeviceExit(void);
@@ -54,6 +48,9 @@ int StdinDeviceInit(void)
 
     //set the terminal attributes.
     tcsetattr(STDIN_FILENO, TCSANOW, &tTTYState);
+
+
+	g_ptStdInputOperate.fd = STDIN_FILENO;
 
 	return 0;
 }
