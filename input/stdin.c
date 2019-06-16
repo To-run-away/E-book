@@ -49,8 +49,8 @@ int StdinDeviceInit(void)
     //set the terminal attributes.
     tcsetattr(STDIN_FILENO, TCSANOW, &tTTYState);
 
-
 	g_ptStdInputOperate.fd = STDIN_FILENO;
+
 
 	return 0;
 }
@@ -78,7 +78,6 @@ int StdinDeviceExit(void)
 
 #endif
 
-
 	struct termios tTTYState;
  
     //get the terminal state
@@ -89,16 +88,18 @@ int StdinDeviceExit(void)
 	
     //set the terminal attributes.
     tcsetattr(STDIN_FILENO, TCSANOW, &tTTYState);	
-
 	
 	return 0;
 }
 
 int StdinGetInputEvent(PT_InputEvent ptInputEvent)
 {
+
+	char c;
+
+#if (INPUT_WAY == 1)
 	struct timeval tv;
 	fd_set fds;
-	char c;
 
 	/*
  	 * 设置select函数的等待时间
@@ -125,6 +126,7 @@ int StdinGetInputEvent(PT_InputEvent ptInputEvent)
  	 */
 	if( FD_ISSET(STDIN_FILENO, &fds) ) 
 	{
+#endif
 		ptInputEvent->type = INPUT_TYPE_STDIN;
 		c = fgetc(stdin); 
 
@@ -140,11 +142,14 @@ int StdinGetInputEvent(PT_InputEvent ptInputEvent)
 			ptInputEvent->value = INPUT_VALUE_UNKNOWN;
 
 		return 0;
+#if (INPUT_WAY == 1)
 	}
 	else
 	{
 		return -1;
 	}
+#endif
+
 }
 
 int StdinInit(void)
