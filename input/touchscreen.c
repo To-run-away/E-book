@@ -4,6 +4,7 @@
 #include <input_manage.h>
 #include <tslib.h>
 #include <draw.h>
+#include <stdlib.h>
 
 
 int TouchScreenDeviceInit(void);
@@ -30,10 +31,12 @@ int TouchScreenDeviceInit(void)
 	/*
 	 * 以非阻塞方式打开触摸屏
 	 */
-	g_ptTs = ts_setup("/dev/input/event0", 1);
+	g_ptTs = ts_setup(TOUCHSCREEN_DEVICE_NAME, 1);
 
 	GetDisplayResolution(&g_Xres, &g_Yres);
 
+	g_tTouchScreenInputOperate.fd = ts_fd(g_ptTs);
+	//g_tTouchScreenInputOperate.fd = g_ptTs->fd;
 
 	return 0;
 }
@@ -47,6 +50,9 @@ int TouchScreenDeviceExit(void)
 	return 0;
 }
 
+/*
+ * 两次时间间隔是否超过
+ */
 static int IsOutofTime(struct timeval *pPreTime,struct timeval *pNowTime)
 {
 	long pre_ms;
@@ -55,9 +61,12 @@ static int IsOutofTime(struct timeval *pPreTime,struct timeval *pNowTime)
 	pre_ms = pPreTime->tv_sec * 1000 + pPreTime->tv_usec / 1000;
 	now_ms = pNowTime->tv_sec * 1000 + pNowTime->tv_usec / 1000;
 	
-	return ((pre_ms + 200) < now_ms);
+	return ((pre_ms + 100) < now_ms);
 }
 
+/*
+ * 获得按键值
+ */
 int TouchScreenGetInputEvent(PT_InputEvent ptInputEvent)
 {
 	struct ts_sample samp;
