@@ -11,9 +11,25 @@
 
 前提：
 1.提前编译好freetype库,并放在开发板上;
-2.
+2.提前编译好tslib库,并放在开发板上;
 
-使用步骤：
+
+
+
+#-------------------------------------------
+使用tslib库需要把下面几个宏导出为环境变量,
+这个我也会放在tools目录下,建议设置为脚本,在开机启动时自动导出到环境变量
+
+export TSLIB_TSDEVICE=/dev/input/event0
+export TSLIB_CONFFILE=/etc/ts.conf
+export TSLIB_PLUGINDIR=/lib/ts
+export TSLIB_CONSOLEDEVICE=none
+export TSLIB_FBDEVICE=/dev/fb0
+
+#-------------------------------------------
+
+
+电子书使用步骤：
 1.根据自己的使用平台替换编译器,也可以使用指定编译工具链来编译,比如:
 
 make CROSS_COMPILE=arm-none-linux-gnueabi-
