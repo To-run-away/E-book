@@ -40,7 +40,6 @@ int StdinDeviceInit(void)
     //get the terminal state
     tcgetattr(STDIN_FILENO, &tTTYState);
  
-	//非阻塞方式读取
     //turn off canonical mode
     tTTYState.c_lflag &= ~ICANON;
     //minimum of number input read.
@@ -97,59 +96,21 @@ int StdinGetInputEvent(PT_InputEvent ptInputEvent)
 
 	char c;
 
-#if (INPUT_WAY == 1)
-	struct timeval tv;
-	fd_set fds;
+	ptInputEvent->type = INPUT_TYPE_STDIN;
+	c = fgetc(stdin); 
 
-	/*
- 	 * 设置select函数的等待时间
- 	 */
-	tv.tv_sec 	= 0;
-	tv.tv_usec  = 0;
-	/*
- 	 * 清0集合
-	 */
-	FD_ZERO(&fds);
+	gettimeofday(&ptInputEvent->time, NULL);
 
-	/*
-	 * 设置fds的标准输入bit
-	 */
-	FD_SET(STDIN_FILENO, &fds);
- 
-	/*
- 	 * 查询1标准输入的状态
-	 */
-	select(STDIN_FILENO + 1, &fds, NULL, NULL, &tv);
+	if('u'  == c) 
+		ptInputEvent->value = INPUT_VALUE_UP;
+	else if('n' == c)
+		ptInputEvent->value = INPUT_VALUE_DOWN;
+	else if('q' == c)
+		ptInputEvent->value = INPUT_VALUE_EXIT;
+	else 
+		ptInputEvent->value = INPUT_VALUE_UNKNOWN;
 
-	/*
-	 * 查询标准输入是否已经置位
- 	 */
-	if( FD_ISSET(STDIN_FILENO, &fds) ) 
-	{
-#endif
-		ptInputEvent->type = INPUT_TYPE_STDIN;
-		c = fgetc(stdin); 
-
-		gettimeofday(&ptInputEvent->time, NULL);
-
-		if('u'  == c) 
-			ptInputEvent->value = INPUT_VALUE_UP;
-		else if('n' == c)
-			ptInputEvent->value = INPUT_VALUE_DOWN;
-		else if('q' == c)
-			ptInputEvent->value = INPUT_VALUE_EXIT;
-		else 
-			ptInputEvent->value = INPUT_VALUE_UNKNOWN;
-
-		return 0;
-#if (INPUT_WAY == 1)
-	}
-	else
-	{
-		return -1;
-	}
-#endif
-
+	return 0;
 }
 
 int StdinInit(void)

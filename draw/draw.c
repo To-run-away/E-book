@@ -525,7 +525,7 @@ int ShowPrevPage(void)
 
 	err = ShowOnePage(g_ptCurPage->ptPrevPage->pucLcdFirstPos);
 	if( !err ) {
-		DBG_PRINTF("ShowPrevPage ok\n");
+		//DBG_PRINTF("ShowPrevPage ok\n");
 		g_ptCurPage = g_ptCurPage->ptPrevPage;
 	}
 	

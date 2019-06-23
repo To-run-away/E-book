@@ -141,12 +141,18 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 
+	/*
+	 * 初始化设备
+	 */
 	err = Initialize();
 	if( err ) {
 		DBG_PRINTF("Initialize error\n");
 		return -1;
 	}
 
+	/*
+	 * 显示支持的设
+ 	 */
 	if( list ) {
 		ShowSupportOption();
 		return 0;

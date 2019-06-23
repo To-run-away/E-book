@@ -31,12 +31,17 @@ int TouchScreenDeviceInit(void)
 	/*
 	 * 以非阻塞方式打开触摸屏
 	 */
-	g_ptTs = ts_setup(TOUCHSCREEN_DEVICE_NAME, 1);
+//	g_ptTs = ts_setup(TOUCHSCREEN_DEVICE_NAME, 1);
+
+	/*
+	 * 以阻塞方式打开触摸屏
+	 */
+	g_ptTs = ts_setup(TOUCHSCREEN_DEVICE_NAME, 0);
+
 
 	GetDisplayResolution(&g_Xres, &g_Yres);
 
 	g_tTouchScreenInputOperate.fd = ts_fd(g_ptTs);
-	//g_tTouchScreenInputOperate.fd = g_ptTs->fd;
 
 	return 0;
 }

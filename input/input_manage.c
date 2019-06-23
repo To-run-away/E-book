@@ -2,12 +2,15 @@
 #include <config.h>
 #include <input_manage.h>
 #include <draw.h>
+#include <string.h>
+#include <pthread.h>
 
 static PT_InputOperate g_ptInputOperateHead;
-#if (INPUT_WAY == 2)
-static fd_set g_Readfds;
-static int g_Maxfd;
-#endif
+static T_InputEvent g_tInputEvent;
+
+static pthread_mutex_t g_InputMutex;
+static pthread_cond_t g_InputCond;
+
 
 /*
  * 注册输入操作
@@ -36,6 +39,7 @@ int RegisterInputOperate(PT_InputOperate ptInputOperate)
 	return 0;
 }
 
+
 /*
  * 展示支持的输入设备
  */
@@ -51,6 +55,35 @@ void ShowInputOperate(void)
 }
 
 
+static void *InputEventThreadFunc(void *arg)
+{
+	int (*GetInputEvent)(PT_InputEvent ptInputEvent);
+	T_InputEvent tInputEvent;
+
+	GetInputEvent = arg;
+	
+
+	while(1)
+	{
+		if(!GetInputEvent(&tInputEvent))
+		{
+			/*
+			 * 使用全局变量,放置并发错误,放到临界区
+			 */
+			pthread_mutex_lock(&g_InputMutex);	
+			g_tInputEvent = tInputEvent;
+						
+			/* 得到数据了唤醒显示线程 */
+			pthread_cond_signal(&g_InputCond);
+			pthread_mutex_unlock(&g_InputMutex);
+		}
+
+	}
+
+	return NULL;
+}
+
+
 
 /*
  * 初始化输入设备
@@ -60,28 +93,22 @@ int InputDeviceInit(void)
 	PT_InputOperate tmp_ptInputOperate = g_ptInputOperateHead;
 	int ret = -1;
 
-#if (INPUT_WAY == 2)
-	FD_ZERO(&g_Readfds);
-#endif
+	pthread_mutex_init(&g_InputMutex,NULL);
+	pthread_cond_init(&g_InputCond,NULL);
 
 	while(tmp_ptInputOperate)
 	{
 		if(!tmp_ptInputOperate->DeviceInit()) {
 			ret = 0;
-#if (INPUT_WAY == 2)
-			FD_SET(tmp_ptInputOperate->fd,&g_Readfds);
-			if(g_Maxfd < tmp_ptInputOperate->fd)
-				g_Maxfd = tmp_ptInputOperate->fd;
-#endif
+
+			/* 创建子线程 */
+			ret = pthread_create(&tmp_ptInputOperate->tid, NULL, InputEventThreadFunc, tmp_ptInputOperate->GetInputEvent);
+			if(ret) {
+				DBG_PRINTF("pthread_create fail\n");
+			}
 		}
 		tmp_ptInputOperate = tmp_ptInputOperate->ptNext;
 	}
-#if (INPUT_WAY == 2)	
-	/*
- 	 * select中最大文件句柄是fd + 1
-	 */
-	g_Maxfd += 1;
-#endif
 
 	return ret;
 }
@@ -90,60 +117,25 @@ int InputDeviceInit(void)
  */
 int GetInputEvent(PT_InputEvent ptInputEvent)
 {
-	PT_InputOperate tmp_ptInputOperate = g_ptInputOperateHead;
-
-#if (1 == INPUT_WAY)
-	while(tmp_ptInputOperate)
-	{
-		/* 查询方式 */
-		if(!tmp_ptInputOperate->GetInputEvent(ptInputEvent))
-			return 0;
-		tmp_ptInputOperate = tmp_ptInputOperate->ptNext;
-	}
-#elif (2 == INPUT_WAY)
-	int ret;
-	fd_set fds;
-
 	/*
-	 * 查询两个输入设备
+	 * 访问临界资源
 	 */
-	fds = g_Readfds;
+	pthread_mutex_lock(&g_InputMutex);
+
 	/*
-	 * 查询等待输入事件到来
- 	 */
-	ret = select(g_Maxfd, &fds, NULL, NULL, NULL);
-	if(ret > 0) {
-		while(tmp_ptInputOperate) {
+	 * 获取数据的线程休眠
+	 */
+	pthread_cond_wait(&g_InputCond, &g_InputMutex);
 
-			/*
-			 * 查询是那个输入设备有数据了,然后获取数据
-			 */
-			if(FD_ISSET(tmp_ptInputOperate->fd, &fds)) {
-				if(!tmp_ptInputOperate->GetInputEvent(ptInputEvent))
-					return 0;
-			}
-			tmp_ptInputOperate = tmp_ptInputOperate->ptNext;
-		}
+	/*
+	 * 唤醒后标明数据已经获得按键
+	 */
+	*ptInputEvent = g_tInputEvent;
 
-	}
-	else if(ret < 0){
+	pthread_mutex_unlock(&g_InputMutex);
 
-		perror("select\n");
-		return -1;
-	}
-	else {
-
-		DBG_PRINTF("select timeout\n");
-	}
-
-#elif (3 == INPUT_WAY)
-
-
-
-#endif
-
-		return -1;
-	}
+	return 0;
+}
 
 
 

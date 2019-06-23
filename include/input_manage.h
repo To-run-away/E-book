@@ -4,6 +4,7 @@
 #define __INPUT_MANAGE_H__
 
 #include <sys/time.h>
+#include <pthread.h>
 
 /*
  * 输出设备类型,比如标准输入,触摸屏,按键
@@ -40,6 +41,7 @@ typedef struct _InputEvent {
 typedef struct _InputOperate {
 	char *name;	
 	int fd;
+	pthread_t tid;
 	int (*DeviceInit)(void);
 	int (*DeviceExit)(void);
 	int (*GetInputEvent)(PT_InputEvent ptInputEvent);
